@@ -1,6 +1,4 @@
 library/Zend
 *.iml
 .idea/
-
-
-
+.zfproject.xml
