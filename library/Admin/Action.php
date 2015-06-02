@@ -6,7 +6,7 @@ class Admin_Action extends Zend_Controller_Action
     {
         parent::init();
 
-        $this->_helper->layout->setLayout('panel');
+        $this->_helper->layout->setLayout('admin');
 
         if(Site_Helper::getSes('hata')){
             $this->view->messages = array('err'=>1, 'msg'=>Site_Helper::getSes('hata'));
@@ -67,16 +67,14 @@ class Admin_Action extends Zend_Controller_Action
 
         $user = Site_Helper::getSes('user');
 
-        if(!$user)
-            $this->_redirect('/admin/auth/logout');
+       if($user)
+           $this->_redirect('/yonetim/auth/logout');
 
-        $activeGroup = Site_Helper::getSes('active_group');
+        $activeGroup = Site_Helper::getSes('aktif_grup');
 
         if($activeGroup!=ADMIN_YETKI_KODU)
         {
-
             $acl = Site_Helper::getSes('acl');
-
             if($acl->has($this->getRequest()->getControllerName()))
             {
                 try
@@ -84,11 +82,13 @@ class Admin_Action extends Zend_Controller_Action
                     if(!$acl->isAllowed($activeGroup ,$this->_request->getControllerName(),$this->getRequest()->getActionName()))
                     {
                         Site_Helper::setSes("hata","Bu İşleme Yetkiniz Yok!");
-
+                        echo 'yetkiyok'; exit;
+                        $this->_redirect('/yonetim/index');
                         /*
                          * @todo error page yazılacak
                          * $this->_redirect('/error/error');
                         */
+                        exit;
                     }
                 }
                 catch(Zend_Exception $e){
@@ -96,11 +96,10 @@ class Admin_Action extends Zend_Controller_Action
                 }
             }
             else{
+                echo 'yetkiyok'; exit;
                 Site_Helper::setSes("hata","Bu İşleme Yetkiniz Yok!");
-                /*
-                 * @todo error page yazılacak
-                 * $this->_redirect('/error/error');
-                 */
+                $this->_redirect('/yonetim/index');
+
             }
         }
 

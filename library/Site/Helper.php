@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alkan
- * Date: 5/12/15
- * Time: 4:38 PM
- */
+
 class Site_Helper
 {
     public static function setSes($key ,$val){

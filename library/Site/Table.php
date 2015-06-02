@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Table extends Zend_Db_Table_Abstract
+class Site_Table extends Zend_Db_Table_Abstract
 {
     protected $_select;
     protected $_formId;
