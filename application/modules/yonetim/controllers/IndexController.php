@@ -5,17 +5,19 @@ class Yonetim_IndexController extends Admin_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        parent::init();
+        parent::initScripts();
+        $this->view->headTitle()->prepend('Dashboard');
     }
 
     public function indexAction()
     {
-        Zend_Debug::dump(1);exit;
+
     }
 
     public function testAction()
     {
-        // action body
+
     }
 
 

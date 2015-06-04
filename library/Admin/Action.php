@@ -25,52 +25,20 @@ class Admin_Action extends Zend_Controller_Action
         $this->view->controller = $controller;
         $this->view->action = $action;
 
-        $viMenu = new ViMenu();
-        $menu = $viMenu->liste(array('durum='=>1),array('ust_modul_id','sira'))->rows;
-        $arr = array();
-        $currentMenu = array();
-
-        foreach($menu as $m){
-
-            if($m['controller'] == $controller && $m['action'] == $action)
-                $currentMenu = $m;
-
-            if($m['ust_modul_id']==0)
-                $arr[$m['id']] = $m;
-            else
-                $arr[$m['ust_modul_id']]['alt_menu'][] = $m;
-        }
-
-        $this->view->menu = $arr;
-        $this->view->title = $currentMenu['aciklama'];
-        $this->view->currentMenu = $currentMenu;
-
         $subview=new Zend_View();
         $subview->addBasePath(ROOT_DIR . '/application/views');
 
         $this->view->subview=$subview;
-
-        if(!Site_Helper::getSes('userGroups')){
-            $tblParametre = new TblParametre();
-            $param = $tblParametre->liste(array('kod'=>Site_Helper::getSes('groupCodes')))->rows;
-            $new = array();
-            foreach($param as $p){
-                $new[$p['kod']] = $p;
-            }
-            Site_Helper::setSes('userGroups',$new);
-        }
-        $this->view->userGroups = Site_Helper::getSes('userGroups');
-
 
     }
     public function preDispatch() {
 
         $user = Site_Helper::getSes('user');
 
-       if($user)
-           $this->_redirect('/yonetim/auth/logout');
+       if(!$user)
+           $this->_redirect('/yonetim/auth/login');
 
-        $activeGroup = Site_Helper::getSes('aktif_grup');
+        $activeGroup = Site_Helper::getSes('grup_kodu');
 
         if($activeGroup!=ADMIN_YETKI_KODU)
         {
@@ -81,6 +49,7 @@ class Admin_Action extends Zend_Controller_Action
                 {
                     if(!$acl->isAllowed($activeGroup ,$this->_request->getControllerName(),$this->getRequest()->getActionName()))
                     {
+
                         Site_Helper::setSes("hata","Bu İşleme Yetkiniz Yok!");
                         echo 'yetkiyok'; exit;
                         $this->_redirect('/yonetim/index');
@@ -96,6 +65,7 @@ class Admin_Action extends Zend_Controller_Action
                 }
             }
             else{
+
                 echo 'yetkiyok'; exit;
                 Site_Helper::setSes("hata","Bu İşleme Yetkiniz Yok!");
                 $this->_redirect('/yonetim/index');
@@ -105,6 +75,31 @@ class Admin_Action extends Zend_Controller_Action
 
     }
 
+    public function initScripts(){
+
+        $this->view->headTitle(PANEL_ADI) ->setSeparator(' | ')->setAutoEscape(false);
+        $this->view->headLink()->setStylesheet('/admin/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/font-icons/entypo/css/entypo.css');
+        $this->view->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/bootstrap.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-core.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-theme.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-forms.css');
+
+        $this->view->headScript()->appendFile('/admin/assets/js/gsap/main-gsap.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/bootstrap.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/joinable.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/resizeable.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/neon-api.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/neon-custom.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/neon-demo.js');
+
+        $this->view->headMeta()->appendName('keywords', SITE_KEYWORDS);
+        $this->view->headMeta()->appendName('description', SITE_DESC);
+
+
+    }
     public function postDispatch(){
 
     }

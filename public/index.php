@@ -10,6 +10,8 @@ define('SITE_ADI','CMS');
 define('ADMIN_YETKI_KODU','superadmin');
 define('MAX_ROW', 20);
 define('SITE_MEDIA_URL','/site/assets');
+define('SITE_DESC','Description Deneme');
+define('SITE_KEYWORDS','Description Deneme');
 
 date_default_timezone_set('Europe/Istanbul');
 

@@ -3,8 +3,28 @@
 class Yonetim_AuthController extends Zend_Controller_Action
 {
 
-    public function _init()
+    public function init()
     {
+        parent::init();
+        $this->view->headTitle(PANEL_ADI) ->setSeparator(' | ')->setAutoEscape(false);
+        $this->view->headTitle()->prepend('Login');
+        $this->view->headLink()->setStylesheet('/admin/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/font-icons/entypo/css/entypo.css');
+        $this->view->headLink()->appendStylesheet('http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/bootstrap.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-core.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-theme.css');
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/neon-forms.css');
+        $this->view->headScript()->setFile('/admin/assets/js/jquery-1.11.0.min.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/gsap/main-gsap.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/bootstrap.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/joinable.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/resizeable.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/neon-api.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/jquery.validate.min.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/neon-login.js');
+
     }
 
     public function indexAction()
@@ -13,7 +33,9 @@ class Yonetim_AuthController extends Zend_Controller_Action
     }
 
     public function loginAction()
+
     {
+        $this->view->headLink()->appendStylesheet('/admin/assets/css/custom.css');
     }
 
     public function kontrolAction()
@@ -44,12 +66,7 @@ class Yonetim_AuthController extends Zend_Controller_Action
                 $this->_redirect("/yonetim/auth/login");
             } else {
                 $tbl = new TblKullanici();
-                $user = $tbl->liste(array("kullanici_adi=" => $post['kullanici_adi'], 'sifre=' => md5($post['parola'])))->rows[0];
-                if ($user['tip'] == 'site') {
-                    Site_Helper::setSes('hata', 'Site kullanıcısı ile panele giriş yapamazsınız!');
-                    $this->_redirect('/yonetim/auth/login');
-                }
-
+                $user = $tbl->liste(array("kullanici_adi=" => $post['kullanici'], 'sifre=' => md5($post['sifre'])))->rows[0];
                 Site_Helper::setSes('user', $user);
 
                 $tblAcl = new TblAcl();
@@ -76,8 +93,7 @@ class Yonetim_AuthController extends Zend_Controller_Action
                 }
 
                 Site_Helper::setSes('acl', $acl);
-                Site_Helper::setSes('groupCodes', $grupCodes);
-                Site_Helper::setSes('active_group', $grupCodes[0]);
+                Site_Helper::setSes('grup_kodu', $user['grup_kodu']);
 
                 $this->_redirect("/yonetim/index");
             }
@@ -87,7 +103,7 @@ class Yonetim_AuthController extends Zend_Controller_Action
     public function logoutAction()
     {
         Site_Helper::setSes('user', null);
-        $this->_redirect('/admin/auth/login');
+        $this->_redirect('/yonetim/auth/login');
     }
 
 
