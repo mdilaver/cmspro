@@ -31,15 +31,17 @@ class Site_Helper
         }
     }
 
-    public function pagination($data) {
+    public static function pagination($data) {
+
+        $fc =Zend_Controller_Front::getInstance();
 
         $adapter = new Zend_Paginator_Adapter_DbTableSelect($data);
 
         $paginator = new Zend_Paginator($adapter);
 
-        $page = ($this->getRequest()->getParam('page')) ? $this->getRequest()->getParam('page') : 1;
+        $page = ($fc->getRequest()->getParam('sayfa')) ? $fc->getRequest()->getParam('sayfa') : 1;
 
-        $paginator->setCurrentPageNumber($this->getRequest()->getParam('page'));
+        $paginator->setCurrentPageNumber($fc->getRequest()->getParam('sayfa'));
 
         $paginator->setDefaultScrollingStyle('Elastic');
 
@@ -98,20 +100,55 @@ class Site_Helper
         }
         return $response;
     }
-
-    public static function sezonGetir()
+    /* ISO formatında tarihi alır.
+     * ayGorunumu değeri 0 da Ay adını uzun döndürür. 1 de kısa döndürür. 3 te rakam döndürür
+     * yilgorunumu 1 or 0
+     */
+    public static function getTarih($tarih, $ayGorunumu=0, $yilGorunumu=1)
     {
-        $ay = date('m');
-        $yil = date('Y');
-        $egitimyil = $ay < 9 ? ($yil - 1) . "-" . $yil : $yil . "-" . ($yil + 1);
-        return $egitimyil;
+        $trh = strtotime($tarih);
+        $gunint = date("d", $trh);
+        $ayint = date("m", $trh);
+        $yilint = date("Y", $trh);
+
+        if($ayGorunumu==0) {
+
+            $aylar = array(
+                "01"=>"Ocak","02"=>"Şubat","03"=>"Mart","04"=>"Nisan","05"=>"Mayıs","06"=>"Haziran",
+                "07"=>"Temmuz","08"=>"Ağustos","09"=>"Eylül","10"=>"Ekim","11"=>"Kasım","12"=>"Aralık");
+            $ay = $aylar[$ayint];
+
+        }
+        elseif($ayGorunumu==1) {
+
+            $aylar=array(
+                "01"=>"Oca","02"=>"Şub","03"=>"Mar","04"=>"Nis","05"=>"May","06"=>"Haz",
+                "07"=>"Tem","08"=>"Ağu","09"=>"Eyl","10"=>"Ekm","11"=>"Kas","12"=>"Ara");
+            $ay = $aylar[$ayint];
+
+        }
+        else {
+            $ay = $ayint;
+        }
+
+        if($yilGorunumu)
+            $tarih =  $gunint . " " . $ay. " " . $yilint;
+        else
+            $tarih = $gunint . " " . $ay;
+
+        return $tarih;
     }
 
-    public static function donemGetir()
+    public static function getZaman($tarih)
     {
-        $ay = date('m');
-        $donem = $ay > 2 ? 2 : 1;
-        return $donem;
+        $trh = strtotime($tarih);
+
+        $gun = date("d", $trh);
+        $ay = date("m", $trh);
+        $yil = date("Y", $trh);
+
+        return date('H:i',$trh);
     }
+
 
 }

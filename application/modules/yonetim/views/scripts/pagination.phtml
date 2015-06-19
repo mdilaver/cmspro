@@ -1,0 +1,38 @@
+<div class="text-center">
+    <ul class="pagination">
+        <!-- First page link -->
+        <?php if (isset($this->previous)): ?>
+            <li><a href="<?php echo $this->url(array('sayfa' => $this->first)); ?>"><i class="entypo-to-start"></i></a></li>
+        <?php else: ?>
+            <li class="disabled"><a><i class="entypo-to-start"></i></a></li>
+        <?php endif; ?>
+
+        <!-- Previous page link -->
+
+        <?php if (isset($this->previous)): ?>
+            <li><a href="<?php echo $this->url(array('sayfa' => $this->previous)); ?>"><i class="entypo-left-dir"></i></a></li>
+        <?php else: ?>
+            <li class="disabled"><a ><i class="entypo-left-dir"></i></a></li>
+        <?php endif; ?>
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current): ?>
+                <li><a href="<?php echo $this->url(array('sayfa' => $page)); ?>"><?php echo $page; ?></a></li>
+            <?php else: ?>
+                <li class="active"><a ><?php echo $page; ?></a></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+            <li><a href="<?php echo $this->url(array('sayfa' => $this->next)); ?>"><i class="entypo-right-dir"></i></a></li>
+        <?php else: ?>
+            <li class="disabled"><a ><i class="entypo-right-dir"></i></a></li>
+        <?php endif; ?>
+        <!-- Last page link -->
+        <?php if (isset($this->next)): ?>
+            <li><a href="<?php echo $this->url(array('sayfa' => $this->last)); ?>"><i class="entypo-to-end"></i></a></li>
+        <?php else: ?>
+            <li class="disabled"><a ><i class="entypo-to-end"></i></a></li>
+        <?php endif; ?>
+    </ul>
+</div>

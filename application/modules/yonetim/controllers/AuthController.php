@@ -29,12 +29,17 @@ class Yonetim_AuthController extends Zend_Controller_Action
 
     public function indexAction()
     {
-       Zend_Debug::dump(1);exit;
+        $this->_redirect('/yonetim/auth/login');
     }
 
     public function loginAction()
 
     {
+        $user = Site_Helper::getSes('user');
+
+        if($user)
+            $this->_redirect('/yonetim');
+
         $this->view->headLink()->appendStylesheet('/admin/assets/css/custom.css');
     }
 

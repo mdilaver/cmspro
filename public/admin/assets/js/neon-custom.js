@@ -610,7 +610,7 @@ var public_vars = public_vars || {};
 					opts = {
 						showFirstOption: attrDefault($this, 'first-option', true),
 						'native': attrDefault($this, 'native', false),
-						defaultText: attrDefault($this, 'text', ''),
+						defaultText: attrDefault($this, 'text', '')
 					};
 
 				$this.addClass('visible');
@@ -852,8 +852,8 @@ var public_vars = public_vars || {};
 						format: attrDefault($this, 'format', 'MM/DD/YYYY'),
 						timePicker: attrDefault($this, 'timePicker', false),
 						timePickerIncrement: attrDefault($this, 'timePickerIncrement', false),
-						separator: attrDefault($this, 'separator', ' - '),
-					},
+						separator: attrDefault($this, 'separator', ' - ')
+                    },
 					min_date = attrDefault($this, 'minDate', ''),
 					max_date = attrDefault($this, 'maxDate', ''),
 					start_date = attrDefault($this, 'startDate', ''),

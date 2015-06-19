@@ -91,6 +91,7 @@ class Admin_Action extends Zend_Controller_Action
         $this->view->headScript()->appendFile('/admin/assets/js/bootstrap.js');
         $this->view->headScript()->appendFile('/admin/assets/js/joinable.js');
         $this->view->headScript()->appendFile('/admin/assets/js/resizeable.js');
+        $this->view->headScript()->appendFile('/admin/assets/js/wysihtml5/wysihtml5-0.4.0pre.min.js');
         $this->view->headScript()->appendFile('/admin/assets/js/neon-api.js');
         $this->view->headScript()->appendFile('/admin/assets/js/neon-custom.js');
         $this->view->headScript()->appendFile('/admin/assets/js/neon-demo.js');

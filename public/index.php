@@ -8,15 +8,15 @@ define('DATA_URL', BASE_PATH.'/public/assets/data/');
 define('PANEL_ADI','CMS Yönetim Paneli');
 define('SITE_ADI','CMS');
 define('ADMIN_YETKI_KODU','superadmin');
-define('MAX_ROW', 20);
+define('MAX_ROW', 5);
 define('SITE_MEDIA_URL','/site/assets');
 define('SITE_DESC','Description Deneme');
 define('SITE_KEYWORDS','Description Deneme');
 
 date_default_timezone_set('Europe/Istanbul');
 
-error_reporting(E_ALL || ~E_NOTICE);
-
+//error_reporting(E_ALL || ~E_NOTICE);
+error_reporting(E_ALL);
 mb_internal_encoding("UTF-8");
 
 set_include_path('.'

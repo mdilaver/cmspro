@@ -1,0 +1,99 @@
+
+<h3>İçerikler
+    <a href="" class="btn btn-primary btn-sm" style="margin-left: 10px;">
+        <i class="entypo-plus"></i>
+        Yeni Ekle
+    </a>
+</h3>
+<br>
+<div class="dataTables_wrapper ">
+    <div class="col-sm-9 dataTables_length">
+        <div class="col-sm-1">
+            <h4>Filtre:</h4>
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control">
+                <option>Tip</option>
+                <option>Durum</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+                <option>Option 5</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control">
+                <option>Durum</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+                <option>Option 5</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-3 dataTables_filter">
+        <label>Arama:<input aria-controls="table-1" placeholder="" class="form-control" type="search"></label>
+    </div>
+</div>
+<table class="table table-bordered table-striped datatable" id="table-2">
+    <thead>
+    <tr>
+        <th>
+            <div class="checkbox checkbox-replace">
+                <input type="checkbox" id="chk-1">
+            </div>
+        </th>
+        <th>Tip</th>
+        <th>Başlık</th>
+        <th>Görsel</th>
+        <th>Oluşturulma Tarihi
+        <th>Güncelleme Tarihi</th>
+        <th>Durum</th>
+        <th>Dil</th>
+        <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <?php foreach($this->paginator as $icerik ): ?>
+    <tr>
+        <td>
+            <div class="checkbox checkbox-replace">
+                <input type="checkbox" id="chk-1">
+            </div>
+        </td>
+        <td>Tip</td>
+        <td><?php echo $icerik->baslik;?></td>
+        <td>Görsel</td>
+        <td><?php echo Site_Helper::getTarih($icerik->yayin_tarihi);?>
+            <button type="button" class="btn btn-white btn-xs" style="float: right;" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Admin" data-original-title="Düzenleyen">
+                <i class="entypo-user"></i>
+            </button>
+        </td>
+        <td><?php echo Site_Helper::getTarih($icerik->guncelleme_tarihi);?>
+            <button type="button" class="btn btn-white btn-xs" style="float: right;" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Admin" data-original-title="Düzenleyen">
+                <i class="entypo-user"></i>
+            </button>
+        </td>
+        <td>Yayında</td>
+        <td>Dil</td>
+        <td>
+            <a href="#" class="btn btn-orange btn-sm btn-icon icon-left" >
+                <i class="entypo-pencil"></i>
+                Düzenle
+            </a>
+
+            <a href="#" class="btn btn-danger btn-sm btn-icon icon-left">
+                <i class="entypo-cancel"></i>
+                Sil
+            </a>
+        </td>
+    </tr>
+<?php endforeach;?>
+
+    </tbody>
+</table>
+
+<?php echo $this->paginationControl($this->paginator,'Sliding','pagination.phtml')?>
+
+
+<br />

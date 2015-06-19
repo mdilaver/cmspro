@@ -335,6 +335,7 @@ class Site_Table extends Zend_Db_Table_Abstract
                 $this->_select = null;
                 return $sql;
             }
+            $r = new stdClass();
             $r->rows = $db->fetchAll($this->_select);
             if ($limit) {
                 $this->_select->reset('order');
